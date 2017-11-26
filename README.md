@@ -8,6 +8,7 @@ LAKE: Language-Agnostic Keyword Extraction
 Author: Swagata Duari
 
 pipeline-lake.R: The script contains the pipeline and instructions to execute LAKE method
+
 pipeline-scake.R: The script contains the pipeline and instructions to execute sCAKE method
 
 The algorithms rank all the candidate keywords and does not define as to how many candidates are to be extracted as keywords.
