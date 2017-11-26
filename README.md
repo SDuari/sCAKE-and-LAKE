@@ -1,6 +1,6 @@
 # sCAKE-and-LAKE
 
-R Scripts for implementing sCAKE and LAKE method for single document keyword Extraction.
+R and Python (v 2.7) scripts for implementing sCAKE and LAKE method for single document keyword Extraction.
 
 sCAKE: semantic Connectivity Aware Keyword Extraction
 LAKE: Language-Agnostic Keyword Extraction
