@@ -42,8 +42,10 @@ SigmaIndex <- function(df){
 
 
 # ---------- Main Code
+setwd("path/to/Datasets/") # set working directory to the folder with your text documents
 
-myFile = "path/to/Datasets/myDocument.txt" # original text document
+fileName <- "myDocument.txt" # the text document from where keywords are to be extracted
+
 positions_file = "path/to/Positions/myDocumet.Rda" # the corresponding positions file
 file_id = as.character(file_path_sans_ext(fileName))
 
