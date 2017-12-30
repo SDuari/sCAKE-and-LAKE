@@ -95,7 +95,9 @@ text_clean <- function (x) {
 
 my_stopwords <- readLines("path/to/stopwords.txt") # reads the list of stopwords
 
-f <- "path/to/Datasets/myDocument.txt" # the text document from where keywords are to be extracted
+setwd("path/to/Datasets/") # set working directory to the folder with your text documents
+
+f <- "myDocument.txt" # the text document from where keywords are to be extracted
 
 file_id <- as.character(file_path_sans_ext(f))
   
