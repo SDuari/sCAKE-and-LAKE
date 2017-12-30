@@ -36,7 +36,10 @@ getNodeWeight <- function(w){
 
 # ------------- MAIN CODE
 
-f_txt = "path/to/myDocument.txt" # original Text Document
+setwd("path/to/Datasets/") # set working directory to the folder with your text documents
+
+f_txt <- "myDocument.txt" # the text document from where keywords are to be extracted
+
 file_id = as.character(file_path_sans_ext(f_txt))
 f_wordScore = paste0("path/to/Word-scores-<algo>/",file_id,".sortedranked.IF.txt") # replace <algo> sCAKE or LAKE
 pos_df = readRDS(paste0("path/to/Positions/",file_id,".Rda"))
