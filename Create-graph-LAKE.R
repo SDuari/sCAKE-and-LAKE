@@ -42,7 +42,10 @@ convert_text_to_sentences <- function(text) {
 # -------------- MAIN CODE
 
 df_sigma = read.csv("path/to/Sigma/keywords_sigma.csv")
-f <- "path/to/Datasets/myDocument.txt"
+setwd("path/to/Datasets/") # set working directory to the folder with your text documents
+
+f <- "myDocument.txt" # the text document from where keywords are to be extracted
+
 file_id = as.character(file_path_sans_ext(f))
   
 texts<-readChar(f, file.info(f)$size)
