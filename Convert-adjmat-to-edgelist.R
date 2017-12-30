@@ -6,8 +6,9 @@ library(foreign)
 library(igraph)
 library(tools)
 
+setwd("path/to/Datasets/") # set working directory to the folder with your text documents
 
-f = "path/to/Graphs/myDocument.Rda" # graph file for the text document
+f = "myDocument.Rda" # graph file for the text document
 file_id = as.character(file_path_sans_ext(f))
 
 df1 = readRDS(f)   #### read .rda file, loads data frame
