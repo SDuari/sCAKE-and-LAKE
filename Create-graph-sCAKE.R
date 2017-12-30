@@ -40,7 +40,10 @@ convert_text_to_sentences <- function(text) {
 
 # -------------- MAIN CODE
 
-f <- "path/to/Datasets/myDocument.txt" # The original text document
+setwd("path/to/Datasets/") # set working directory to the folder with your text documents
+
+f <- "myDocument.txt" # the text document from where keywords are to be extracted
+
 file_id = as.character(file_path_sans_ext(f))
 df_pos = readRDS(paste0("path/to/Positions/",file_id,".Rda")) # read the positions file for the text document
   
