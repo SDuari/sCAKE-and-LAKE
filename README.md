@@ -22,6 +22,7 @@ Pipeline:
 3. Run 'create-graph-algoname.R' (creates graphs according the mentioned algorithm)
 4. For both algorithms, run 'Convert-adjmat-to-edgelist.R'
 5. For both algorithms, run Python script 'InfluenceEvaluation.py' using following command:
+        
         python InfluenceEvaluation.py '/path/to/input/directory/Edgelist/'
    
    (Reformatted and reused this script. The Author of python script is my collegue.)
