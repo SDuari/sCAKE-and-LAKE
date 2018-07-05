@@ -17,11 +17,12 @@ Thus the user have to decide on the number of extracted keywords. sCAKE is desig
 
 Pipeline:
 =========
-1. Run 'create-position-info-<algo-name>.R' (replace <algo-name> with sCAKE or LAKE as required)
+1. Run 'create-position-info-algoname.R' (replace 'algoname' with sCAKE or LAKE as required)
 2. For LAKE, run 'compute-sigma-index.R'. Skip this for sCAKE.
-3. Run 'create-graph-<algo-name>.R' (creates graphs according the mentioned algorithm)
+3. Run 'create-graph-algoname.R' (creates graphs according the mentioned algorithm)
 4. For both algorithms, run 'Convert-adjmat-to-edgelist.R'
 5. For both algorithms, run Python script 'InfluenceEvaluation.py' using following command:
         python InfluenceEvaluation.py '/path/to/input/directory/Edgelist/'
+   
    (Reformatted and reused this script. The Author of python script is my collegue.)
 6. For both algorithms, run 'Word-score-with-PostionWeight.R'
