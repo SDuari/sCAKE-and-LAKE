@@ -57,10 +57,8 @@ corp <- tm_map(corp, content_transformer(tolower))
 corp <- tm_map(corp, removePunctuation)
 corp <- tm_map(corp, removeNumbers)
 corp <- tm_map(corp, removeWords, my_stopwords)
-corp <- tm_map(corp, stemDocument, language = "english")
 
 words <- SplitText(as.character(corp[[1]]))
-words = gsub("\\b[i|v|x|l|c|d|m]{1,3}\\b", "", words)
 if(length(which(words == "")) > 0)
   words = words[-which(words == "")]
   
