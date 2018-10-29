@@ -68,6 +68,7 @@ corp <- tm_map(corp, content_transformer(tolower))
 corp <- tm_map(corp, removePunctuation)
 corp <- tm_map(corp, removeNumbers)
 corp <- tm_map(corp, removeWords, stopwords(kind = "SMART"))
+corp <- tm_map(corp, stemDocument, language = "english")
   
   
 selected_words <- df_pos$words # the words in the position information file are the candidates
