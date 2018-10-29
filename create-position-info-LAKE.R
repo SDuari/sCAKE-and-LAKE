@@ -17,78 +17,23 @@ library(tools)
 
 # ------------- FUNCTIONS
 
-text_clean <- function (x) {
-  # Function to clean and pre-process the input text document
-  # required packages: "tm", "openNLP"
-  
-  # convert to lower case
-  x = tolower(x)
-  
-  # remove extra white space
-  x = gsub("\\s+"," ",x)
-  
-  # replace tabs with white space
-  x = gsub("[/\t]"," ",x)
-  
-  # remove dashes
-  x = gsub("- ", " ", x, perl = TRUE) 
-  x = gsub(" -", " ", x, perl = TRUE)
-  
-  # remove parentheses
-  x = gsub("\\(", " ", x, perl = TRUE) 
-  x = gsub("\\)", " ", x, perl = TRUE)
-  
-  # remove punctuations
-  x = removePunctuation(x)
-  
-  # remove plus and star signs
-  x = gsub("+", " ", x, fixed = TRUE)
-  x = gsub("*", " ", x, fixed = TRUE)
-  
-  # remove apostrophes that are not intra-word
-  x = gsub("' ", " ", x, perl = TRUE)
-  x = gsub(" '", " ", x, perl = TRUE)
-  
-  # remove numbers (integers and floats) but not dates like 2015
-  x = gsub("\\b(?!(?:18|19|20)\\d{2}\\b(?!\\.\\d))\\d*\\.?\\d+\\b"," ", x, perl=T)
-  
-  # remove "e.g." and "i.e."
-  x = gsub("\\b(?:e\\.g\\.|i\\.e\\.)", " \\1 ", x, perl=T)
-  
-  # replace "...." by "..."
-  x = gsub("(\\.\\.\\.\\.)", " \\.\\.\\. ", x, perl=T)
-  
-  # replace ".." by "."
-  x = gsub("(\\.\\.\\.)(*SKIP)(*F)|(\\.\\.)", " \\. ", x, perl=T)
-  
-  
-  # remove leading and trailing white space
-  x = str_trim(x,"both")
-  
-  # tokenize
-  x = unlist(strsplit(x,split=" "))
-  
-  # make a copy of tokens without further preprocessing
-  xx = x
-  
-  # remove stopwords
-  index = which(x %in% my_stopwords)
-  if (length(index)>0){
-    x = x[-index]
-  }
-  
-  # remove blank elements
-  index = which(x=="")
-  if (length(index)>0){
-    x = x[-index]
-  }
-  
-  index = which(xx=="")
-  if (length(index)>0){
-    xx = xx[-index]
-  }
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+
+IsPunctuated <- function(Phrase) {
+  length(grep("\\.|-|,|!|\\?|;|:|\\)|]|}\\Z",Phrase,perl=TRUE))>0 # punctuation: . , ! ? ; : ) ] }
 }
 
+SelectTaggedWords <- function(Words,tagID) {
+  Words[ grep(tagID,Words) ]
+}
+
+RemoveTags <- function(Words) {
+  sub("/[A-Z]{2,3}","",Words)
+}
+
+SplitText <- function(Phrase) { 
+  unlist(strsplit(Phrase," "))
+}
 
 
 # ------------ Main Code
@@ -105,10 +50,23 @@ texts<-readChar(f, file.info(f)$size) # reads contents of the text document
 
 # 
 
-output <- text_clean(texts)
-words <- output$unprocessed
+doc<-c(texts)
+corp <- Corpus(VectorSource(doc))
+corp <- tm_map(corp, stripWhitespace)
+corp <- tm_map(corp, content_transformer(tolower))
+corp <- tm_map(corp, removePunctuation)
+corp <- tm_map(corp, removeNumbers)
+corp <- tm_map(corp, removeWords, my_stopwords)
+corp <- tm_map(corp, stemDocument, language = "english")
 
-selected_words <- output$processed
+words <- SplitText(as.character(corp[[1]]))
+words = gsub("\\b[i|v|x|l|c|d|m]{1,3}\\b", "", words)
+if(length(which(words == "")) > 0)
+  words = words[-which(words == "")]
+  
+selected_words = unique(words)
+
+N = length(words) + 1
   
 t = NULL
 posi = list()
@@ -128,6 +86,8 @@ for (w in selected_words) {
 }
   
 pos_w = as.array(posi)
+    
+
   
 term_freq = data.frame(t,tf,pos_w)
 names(term_freq) = c("words","tf","positions")
