@@ -72,7 +72,7 @@ corp <- tm_map(corp, removeNumbers)
 corp <- tm_map(corp, removeWords, stopwords(kind = "SMART"))
   
 
-# select top 33% words as candidates
+# select top 33% words as candidates (using sigma-index rank)
 df_sample = subset(df_sigma, df_sigma$fileName == file_id)
 thres = round(length(df_sample$word) * 0.33) # defining threshold for top-33% words
 thres = ifelse(length(which(df_sample$sigma > 0)) > thres, thres, length(which(df_sample$sigma > 0)))
@@ -84,7 +84,7 @@ if(length(index) > 0){
   
   
 # create document-term matrix
-dtm = DocumentTermMatrix(corp)
+dtm = DocumentTermMatrix(corp, control =  list(wordLengths=c(0, Inf)))
 dtm = dtm[,colnames(dtm)%in%selected_words] # keep only candidates as terms
 dtm = as.matrix(dtm)
 dtm[dtm > 1] <- 1
