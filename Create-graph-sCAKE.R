@@ -81,7 +81,7 @@ if(length(index) > 0){
   
 # create document-term matrix
 # NOTE: Alternatively, you may create term-document matrix
-dtm = DocumentTermMatrix(corp) 
+dtm = DocumentTermMatrix(corp, control =  list(wordLengths=c(0, Inf))) 
 dtm = dtm[,colnames(dtm)%in%selected_words]
 dtm = as.matrix(dtm)
 dtm[dtm > 1] <- 1
