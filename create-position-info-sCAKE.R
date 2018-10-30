@@ -73,7 +73,7 @@ corp <- tm_map(corp, removeWords, my_stopwords)
 corp <- tm_map(corp, stemDocument, language = "english")
 
 words <- SplitText(as.character(corp[[1]]))
-words = gsub("\\b[i|v|x|l|c|d|m]{1,3}\\b", "", words)
+words = gsub("\\b[i|v|x|l|c|d|m]{1,3}\\b", "", words) #removing roman numerals
 if(length(which(words == "")) > 0)    
   words = words[-which(words == "")]
   
