@@ -9,6 +9,21 @@ Author: Swagata Duari
 
 Acknowledgement: Rakhi Saxena, Vasudha Bhatnagar
 
+Citation:
+=========
+@article{DUARI2019100,
+title = "sCAKE: Semantic Connectivity Aware Keyword Extraction",
+journal = "Information Sciences",
+volume = "477",
+pages = "100 - 117",
+year = "2019",
+issn = "0020-0255",
+doi = "https://doi.org/10.1016/j.ins.2018.10.034",
+url = "http://www.sciencedirect.com/science/article/pii/S0020025518308521",
+author = "Swagata Duari and Vasudha Bhatnagar",
+keywords = "Automatic Keyword Extraction, Text Graph, Semantic Connectivity, Parameterless, Language Agnostic"
+}
+
 Description:
 ============
 
