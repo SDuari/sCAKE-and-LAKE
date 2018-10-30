@@ -3,6 +3,7 @@
 R and Python (v 2.7) scripts for implementing sCAKE and LAKE method for single document keyword Extraction.
 
 sCAKE: semantic Connectivity Aware Keyword Extraction
+
 LAKE: Language-Agnostic Keyword Extraction
 
 Author: Swagata Duari
@@ -11,6 +12,7 @@ Acknowledgement: Rakhi Saxena, Vasudha Bhatnagar
 
 Citation:
 =========
+```tex
 @article{DUARI2019100,
         title = "sCAKE: Semantic Connectivity Aware Keyword Extraction",
         journal = "Information Sciences",
@@ -23,6 +25,7 @@ Citation:
         author = "Swagata Duari and Vasudha Bhatnagar",
         keywords = "Automatic Keyword Extraction, Text Graph, Semantic Connectivity, Parameterless, Language Agnostic"
 }
+```
 
 Description:
 ============
