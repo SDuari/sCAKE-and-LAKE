@@ -16,105 +16,36 @@ library(tools)
 
 # ------------- FUNCTIONS
 
-sent_token_annotator = Maxent_Sent_Token_Annotator()
-word_token_annotator = Maxent_Word_Token_Annotator()
-pos_tag_annotator = Maxent_POS_Tag_Annotator()
-
-
-tagPOS <- function(x, ...){
-    # part-of-speech tagger based on openNLP Apache
-    # required packages: "tm","openNLP"
-    s = as.String(x)
-    a1 = annotate(s, list(sent_token_annotator, word_token_annotator))
-    a2 = annotate(s, pos_tag_annotator, a1)
-    a2w <- a2[a2$type == "word"]
-    output = list(output = unlist(lapply(a2w$features, `[[`, "POS")))
+tagPOS <-  function(x, ...) {
+  s <- as.String(x)
+  word_token_annotator <- Maxent_Word_Token_Annotator()
+  a2 <- Annotation(1L, "sentence", 1L, nchar(s))
+  a2 <- annotate(s, word_token_annotator, a2)
+  a3 <- annotate(s, Maxent_POS_Tag_Annotator(), a2)
+  a3w <- a3[a3$type == "word"]
+  POStags <- unlist(lapply(a3w$features, `[[`, "POS"))
+  POStagged <- paste(sprintf("%s/%s", s[a3w], POStags), collapse = " ")
+  list(POStagged = POStagged, POStags = POStags)
 }
 
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 
-
-text_clean <- function (x) {
-  # Function to clean and pre-process the input text document
-  # required packages: "tm", "openNLP"
-  
-  # convert to lower case
-  x = tolower(x)
-  
-  # remove extra white space
-  x = gsub("\\s+"," ",x)
-  
-  # replace tabs with white space
-  x = gsub("[/\t]"," ",x)
-  
-  # remove dashes
-  x = gsub("- ", " ", x, perl = TRUE) 
-  x = gsub(" -", " ", x, perl = TRUE)
-  
-  # remove parentheses
-  x = gsub("\\(", " ", x, perl = TRUE) 
-  x = gsub("\\)", " ", x, perl = TRUE)
-  
-  # remove punctuations
-  x = removePunctuation(x)
-  
-  # remove plus and star signs
-  x = gsub("+", " ", x, fixed = TRUE)
-  x = gsub("*", " ", x, fixed = TRUE)
-  
-  # remove apostrophes that are not intra-word
-  x = gsub("' ", " ", x, perl = TRUE)
-  x = gsub(" '", " ", x, perl = TRUE)
-  
-  # remove numbers (integers and floats) but not dates like 2015
-  x = gsub("\\b(?!(?:18|19|20)\\d{2}\\b(?!\\.\\d))\\d*\\.?\\d+\\b"," ", x, perl=T)
-  
-  # remove "e.g." and "i.e."
-  x = gsub("\\b(?:e\\.g\\.|i\\.e\\.)", " \\1 ", x, perl=T)
-  
-  # replace "...." by "..."
-  x = gsub("(\\.\\.\\.\\.)", " \\.\\.\\. ", x, perl=T)
-  
-  # replace ".." by "."
-  x = gsub("(\\.\\.\\.)(*SKIP)(*F)|(\\.\\.)", " \\. ", x, perl=T)
-  
-  
-  # remove leading and trailing white space
-  x = str_trim(x,"both")
-  
-  # tokenize
-  x = unlist(strsplit(x,split=" "))
-  
-  # make a copy of tokens without further preprocessing
-  xx = x
-  
-  # POS tagging based on Apache openLP and retaining nouns and adjectives
-  x_tagged = tagPOS(x)$output
-  index = which(x_tagged%in%c("NN","NNS","NNP","NNPS","JJ","JJS","JJR"))
-  if (length(index)>0){
-    x = x[index]
-  }
-  
-  # remove stopwords
-  index = which(x %in% my_stopwords)
-  if (length(index)>0){
-    x = x[-index]
-  }
-  
-  # perform stemming using Porter's stemmer
-  x = stemDocument(x)
-  xx = stemDocument(xx)
-  
-  # remove blank elements
-  index = which(x=="")
-  if (length(index)>0){
-    x = x[-index]
-  }
-  
-  index = which(xx=="")
-  if (length(index)>0){
-    xx = xx[-index]
-  }
+IsPunctuated <- function(Phrase) {
+  length(grep("\\.|-|,|!|\\?|;|:|\\)|]|}\\Z",Phrase,perl=TRUE))>0 # punctuation: . , ! ? ; : ) ] }
 }
+
+SelectTaggedWords <- function(Words,tagID) {
+  Words[ grep(tagID,Words) ]
+}
+
+RemoveTags <- function(Words) {
+  sub("/[A-Z]{2,3}","",Words)
+}
+
+SplitText <- function(Phrase) { 
+  unlist(strsplit(Phrase," "))
+}
+
 
 
 
@@ -132,18 +63,21 @@ texts<-readChar(f, file.info(f)$size) # reads contents of the text document
 
 # 
 
-output = text_clean(texts)
-words <- output$unprocessed
-index = which(words %in% c(":",",",".",";","?","!"))
-if (length(index)>0){
-  words = words[-index]
-} 
+doc<-c(texts)
+corp <- Corpus(VectorSource(doc))
+corp <- tm_map(corp, stripWhitespace)
+corp <- tm_map(corp, content_transformer(tolower))
+corp <- tm_map(corp, removePunctuation)
+corp <- tm_map(corp, removeNumbers)  
+corp <- tm_map(corp, removeWords, my_stopwords)
+corp <- tm_map(corp, stemDocument, language = "english")
+
+words <- SplitText(as.character(corp[[1]]))
+words = gsub("\\b[i|v|x|l|c|d|m]{1,3}\\b", "", words)
+if(length(which(words == "")) > 0)    
+  words = words[-which(words == "")]
   
-selected_words <- unique(output$processed)
-index = which(selected_words %in% c(":",",",".",";","?","!"))
-if (length(index)>0){
-  selected_words = selected_words[-index]
-} 
+selected_words = unique(words)
 
 N = length(words) + 1
   
