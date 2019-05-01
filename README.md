@@ -12,7 +12,7 @@ Acknowledgement: Rakhi Saxena, Vasudha Bhatnagar
 
 Article DOI: https://doi.org/10.1016/j.ins.2018.10.034
 
-Article Link: http://www.sciencedirect.com/science/article/pii/S0020025518308521
+Article Link: http://www.sciencedirect.com/science/article/pii/S0020025518308521, https://arxiv.org/pdf/1811.10831.pdf
 
 Citation:
 =========
