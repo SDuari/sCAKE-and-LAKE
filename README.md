@@ -1,4 +1,5 @@
 # sCAKE-and-LAKE
+[![DOI:10.1016/j.ins.2018.10.034](https://zenodo.org/badge/DOI/10.1016/j.ins.2018.10.034.svg)](https://doi.org/10.1016/j.ins.2018.10.034) [![Generic badge](https://img.shields.io/badge/Full%20Article-ScienceDirect-orange.svg)](http://www.sciencedirect.com/science/article/pii/S0020025518308521) [![Generic badge](https://img.shields.io/badge/Preprint-arXiv-orange.svg)](https://arxiv.org/pdf/1811.10831.pdf) [![made-with-r](https://img.shields.io/badge/Made%20with-R-blue.svg)](https://www.r-project.org/) [![made-with-Python](https://img.shields.io/badge/Made%20with-Python-blue.svg)](https://www.python.org/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SDuari/sCAKE-and-LAKE)
 
 R and Python (v 2.7) scripts for implementing sCAKE and LAKE method for single document keyword Extraction.
 
